@@ -22,6 +22,13 @@ for event in events:
 # find the average standard deviations from the mean for each participant and store it in a column called averageStdDev
 results['averageStdDev'] = (results[events[0] + " StdDev"] + results[events[1] + " StdDev"] + results[events[2] + " StdDev"]) / 3
 
-# sort by average standard deviations and send to an excel sheet
-results.sort_values(by='averageStdDev', ascending=False).to_excel("Output.xlsx")
+# sort the by average standard deviations from mean, create a column for the new places aftwer rescore
+results = results.sort_values(by='averageStdDev', ascending=False)
+results.insert(0, 'Rescore Place', [i+1 for i in range(len(results))])
+
+# send to an excel sheet
+try:
+    results.to_excel("Output.xlsx")
+except:
+    print("Permission Denied: Please close the excel sheet or ensure valid permission")
 
